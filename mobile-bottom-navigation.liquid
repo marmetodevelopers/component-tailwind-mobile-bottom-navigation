@@ -1,0 +1,203 @@
+{% style %}
+  .mobile-bottom-navigation__container {
+    grid-template-columns: repeat( {{ section.blocks.size }}, minmax(0, 1fr));
+    box-shadow: 0px -3px 13px 0px rgba(0, 0, 0, 0.15);
+    transform: translateY(0%);
+    transition: transform 0.3s ease-in;
+  }
+
+  .mobile-bottom-navigation__container.animate {
+    transform: translateY(100%);
+    box-shadow: none;
+    transition: transform 0.3s ease-in;
+  }
+{% endstyle %}
+
+<mobile-bottom-navigation class="mobile-bottom-navigation__container md:tw-hidden tw-grid tw-fixed tw-bottom-0 tw-z-[2] tw-w-[100vw] tw-py-4 tw-px-9 tw-bg-white">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'mobile_navigation_block' -%}
+        {% if block.settings.mob_nav_block_functionality == 'open_cart_drawer' %}
+          <mob-nav-cart-drawer>
+        {% elsif block.settings.mob_nav_block_functionality == 'open_menu_drawer' %}
+          <mob-nav-menu-drawer>
+        {% elsif block.settings.mob_nav_block_functionality == 'open_search' %}
+          <mob-nav-search>
+        {% elsif block.settings.mob_nav_block_functionality == 'open_account_page' %}
+          <a href="{{ routes.account_url }}">
+        {% elsif block.settings.mob_nav_block_functionality == 'redirection' %}
+          <a href="{{ block.settings.mob_nav_block_link }}">
+        {% endif %}
+        <div class="mobile-bottom-navigation__block tw-flex tw-flex-col tw-items-center tw-justify-center tw-cursor-pointer">
+          <div class="mobile-bottom-navigation__svg__container tw-flex tw-justify-center tw-w-[1.5rem] tw-h-[1.5rem]">
+            {% if block.settings.mob_nav_block_functionality == 'open_cart_drawer' %}
+              <a href="javascript:void(0)" class="mob-cart-bubble tw-relative tw-pr-0" id="mob-nav-cart-icon-bubble">
+                {% if block.settings.mob_nav_block_svg != blank %}
+                  {{ block.settings.mob_nav_block_svg }}
+                {% else %}
+                  {%- render 'skeleton-icons', 
+                      icon_name: 'mob-nav-cart', 
+                      class: 'tw-w-[1.5rem] tw-h-[1.5rem]' 
+                  -%}
+                {% endif %}
+                <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+                {%- if cart != empty -%}
+                  <div class="mob-nav-cart-icon-bubble cart-count-bubble tw-bottom-[0.5rem!important] tw-left-[1.2rem!important]">
+                    {%- if cart.item_count < 100 -%}
+                      <span aria-hidden="true">{{ cart.item_count }}</span>
+                    {%- endif -%}
+                    <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+                  </div>
+                {%- endif -%}
+               </a>
+            {% elsif block.settings.mob_nav_block_svg != blank %}
+              {{ block.settings.mob_nav_block_svg }}
+            {% elsif block.settings.mob_nav_block_functionality == 'open_menu_drawer' %}
+              {%- render 'skeleton-icons', 
+                  icon_name: 'mob-nav-shop', 
+                  class: 'tw-w-[1.5rem] tw-h-[1.5rem]' 
+               -%}
+            {% elsif block.settings.mob_nav_block_functionality == 'open_search' %}
+              {%- render 'skeleton-icons', icon_name: 'mob-nav-search', class: 'tw-w-[1.5rem] tw-h-[1.5rem]' -%}
+            {% elsif block.settings.mob_nav_block_functionality == 'open_account_page' %}
+              {%- if customer -%}
+                {%- render 'skeleton-icons',
+                  icon_name: 'mob-nav-account-active',
+                  class: 'tw-w-[1.5rem] tw-h-[1.5rem]'
+                -%}
+              {%- else -%}
+                {%- render 'skeleton-icons',
+                  icon_name: 'mob-nav-account-inactive',
+                  class: 'tw-w-[1.5rem] tw-h-[1.5rem]'
+                -%}
+              {%- endif -%}
+            {% elsif block.settings.mob_nav_block_functionality == 'redirection' %}
+              {%- render 'skeleton-icons', 
+                  icon_name: 'mob-nav-chat', 
+                  class: 'tw-w-[1.5rem] tw-h-[1.5rem]' 
+              -%}
+            {% else %}
+              {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg tw-h-[1.5rem] tw-w-[1.5rem]' }}
+            {% endif %}
+          </div>
+
+          {% if section.settings.show and block.settings.mob_nav_block_title != blank %}
+            <div class="mobile-bottom-navigation__title__container tw-text-body-small tw-text-center tw-text-black tw-pt-2">
+              {{ block.settings.mob_nav_block_title }}
+            </div>
+          {% endif %}
+        </div>
+        {% if block.settings.mob_nav_block_functionality == 'open_cart_drawer' %}
+          </mob-nav-cart-drawer>
+        {% elsif block.settings.mob_nav_block_functionality == 'open_menu_drawer' %}
+          </mob-nav-menu-drawer>
+        {% elsif block.settings.mob_nav_block_functionality == 'open_search' %}
+          </mob-nav-search>
+        {% elsif block.settings.mob_nav_block_functionality == 'open_account_page' %}
+          </a>
+        {% elsif block.settings.mob_nav_block_functionality == 'redirection' %}
+          </a>
+        {% endif %}
+    {%- endcase -%}
+  {%- endfor -%}
+</mobile-bottom-navigation>
+
+<script src="{{ 'mobile-bottom-navigation.js' |  asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Mobile bottom navigation",
+  "tag": "section",
+  "class": "mobile-bottom-navigation-section",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "limit": 1,
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show",
+      "label": "Show text under icon",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mobile_navigation_block",
+      "name": "Mobile navigation block",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Mobile navigation settings"
+        },
+        {
+          "type": "text",
+          "id": "mob_nav_block_title",
+          "label": "Mobile navigation block title",
+          "default": "Shop"
+        },
+        {
+          "type": "html",
+          "id": "mob_nav_block_svg",
+          "label": "Mobile navigation block svg",
+          "info": "Add the html code for the mobile navigation svg here! Recommended svg dimenisions: 15 x 15 pixels"
+        },
+        {
+          "type": "select",
+          "id": "mob_nav_block_functionality",
+          "label": "Mobile navigation block functionality",
+          "options": [
+            {
+              "value": "open_cart_drawer",
+              "label": "Open cart drawer"
+            },
+            {
+              "value": "open_menu_drawer",
+              "label": "Open menu drawer"
+            },
+            {
+              "value": "open_search",
+              "label": "Open search"
+            },
+            {
+              "value": "open_account_page",
+              "label": "Open account page"
+            },
+            {
+              "value": "redirection",
+              "label": "Redirection"
+            },
+            {
+              "value": "none",
+              "label": "none"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "header",
+          "content": "redirection settings",
+          "info": "If you chose 'redirection' for the mobile navigation functionality, add the redirection link below!"
+        },
+        {
+          "type": "url",
+          "id": "mob_nav_block_link",
+          "label": "Mobile navigation block link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mobile bottom navigation",
+      "blocks": [
+        {
+          "type": "mobile_navigation_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

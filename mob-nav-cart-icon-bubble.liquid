@@ -1,0 +1,12 @@
+{%- liquid
+  render 'skeleton-icons', icon_name: 'mob-nav-cart', class: 'tw-w-[1.5rem] tw-h-[1.5rem]'
+-%}
+<span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+{%- if cart != empty -%}
+  <div class="mob-nav-cart-icon-bubble cart-count-bubble tw-bottom-[0.5rem!important] tw-left-[1.2rem!important]">
+    {%- if cart.item_count < 100 -%}
+      <span aria-hidden="true">{{ cart.item_count }}</span>
+    {%- endif -%}
+    <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+  </div>
+{%- endif -%}
