@@ -1,3 +1,6 @@
+// Please only add line no. 490 in your HeaderDrawer custom element present in your dawn/skeleton global.js file!
+
+
 function getFocusableElements(container) {
   return Array.from(
     container.querySelectorAll(
