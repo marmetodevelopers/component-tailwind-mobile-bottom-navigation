@@ -10,6 +10,7 @@ class CartDrawer extends HTMLElement {
   setHeaderCartIconAccessibility() {
     const cartLink = document.querySelector('#cart-icon-bubble');
 
+    // Add line 14 to your dawn/skeleton cart drawer.js file
     const mobCartLink = document.querySelector('mob-nav-cart-drawer');
 
     cartLink.setAttribute('role', 'button');
@@ -25,6 +26,7 @@ class CartDrawer extends HTMLElement {
       }
     });
 
+    // Add line 30 to 33 to your dawn/skeleton cart drawer.js file
     mobCartLink?.addEventListener('click', (event) => {
       event.preventDefault();
       this.open(cartLink);
@@ -96,7 +98,8 @@ class CartDrawer extends HTMLElement {
   getSectionInnerHTML(html, selector = '.shopify-section') {
     return new DOMParser().parseFromString(html, 'text/html').querySelector(selector).innerHTML;
   }
-
+  
+  // Add line 112 to 114 to your dawn/skeleton cart drawer.js file
   getSectionsToRender() {
     return [
       {
@@ -124,6 +127,7 @@ class CartDrawer extends HTMLElement {
 customElements.define('cart-drawer', CartDrawer);
 
 class CartDrawerItems extends CartItems {
+   // Add line 143 to 147 to your dawn/skeleton cart drawer.js file
   getSectionsToRender() {
     return [
       {
