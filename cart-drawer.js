@@ -1,3 +1,5 @@
+// Only add the lines with comments to your existing dawn/skeleton's CartDrawer custom element!
+
 class CartDrawer extends HTMLElement {
   constructor() {
     super();
