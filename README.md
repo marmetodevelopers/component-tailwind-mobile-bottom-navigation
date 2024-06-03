@@ -1,8 +1,6 @@
-(Will update dev is too tired so he is sleeping, until then enjoy the preview link xD)
+# Mobile Bottom Navigation Component
 
-# Sample Component
-
-Utilize this section to detail the component, explaining the specific problem it addresses, its ideal use cases, and step-by-step instructions on how to implement it. This comprehensive description will help users understand its relevance and functionality, ensuring they can effectively integrate and leverage the component in their Shopify storefronts. 
+The mobile bottom navigation (Tailwind) component is built to provide the user easy access to most utilized features on an e-commerce website on mobile like the menu drawer, cart drawer, search, account page and more! This section has in-built functionalities to open the cart and menu drawer, open the search dropdown, open the account page and redirection option!
 
 **Live Preview Link**: https://fozail-ahmad-store.myshopify.com/?preview_theme_id=136163754165
 
@@ -11,30 +9,41 @@ Utilize this section to detail the component, explaining the specific problem it
 
 ## Features
 
- - Feature 1 [*Example: Option to show / hide slider dots*]
- - Feature 2 [*Example: Option to switch layout grid / slider*]
- - Feature 3 [*Example: Option to customise rating stars*]
+ - Feature 1 Option to show/hide the text under the icon
+ - Feature 2 Block options to have mobile navigation block title and svg
+ - Feature 3 Block option to choose the in-built mobile navigation block functionality from open the menu drawer, open the cart drawer, open search, open account page, redirection or none!
+ - Feature 4 Block option to provide a redirection link if the functionality choosen is redirection.
 
 
 ## Dependencies
 
- - Dependency 1 [*Example: Splide slider (https://splidejs.com/)*]
- - Dependency 2 [*Example: Animate CSS (https://animate.style/)*]
- - Dependency 3 [*Example: Google sheet API Key*]
+ - Dependency 1 Tailwind CSS (v3.4.3)
 
 
 ## Implementation Steps
 
  - ### Step 1: 
-   Navigate to `theme.liquid` file under Layout folder
+   Add a new section file under the sections folder and copy/paste the code from 'mobile-bottom-navigation.liquid'
    
   - ### Step 2:
-	 Add the below code / Copy the code from `src` folder and paste it in
-   `theme.liquid` file just above closing of `</body>` tag
+    Add a new snippet file under the snippets folder and copy/paste the code from 'skeleton-icons.liquid' for respective placeholder svgs
+
+  - ### Step 3:
+    Add a new js file under the assets folder and copy/paste the code from 'mobile-bottom-navigation.js'
+
+ - ### Step 4:
+    Add a new section file under the sections folder and copy/paste the code from 'mob-nav-cart-icon-bubble.liquid' (This section is for the dynamic cart icon bubble using section rendering api when a product gets added to cart)
+
+ - ### Step 5:
+    global.js - Add line no. 490 in your HeaderDrawer custom element (inside the constructor) present in your dawn/skeleton global.js file! (This is done for the open menu drawer functionality)
+
+ - ### Step 6:
+    cart-drawer.js - Only add the lines with comments to your existing dawn/skeleton's CartDrawer custom element! specifically line 14, line 30 to 33, line 112 to 114, line 143 to 147. (This is done for the open cart drawer functionality and dynamic cart icon bubble)
+   
+ - ### Step 7:
+    Ensure that tailwind css has been installed in your theme for this version of mobile bottom navigation to works!
 
 # Important Notes
 
 >  - The component employs its own styling for the grid system. For further optimization, consider using the classes provided by the
 > theme.
->  - The component utilizes the splide.js slider. If your theme already includes a different slider library, you should consider using that to
-> maintain consistency.
